@@ -1,0 +1,23 @@
+{
+    "name": "bosromania/package-common-tools",
+    "description": "Reusable code for BOS platforms",
+    "keywords": ["BOS Platforms"],
+
+    "autoload": {
+        "psr-4": {
+            "Bosromania\\PackageCommonTools\\": "src/"
+        }
+    },
+
+    "require": {
+        "arshwell/monolith": "0.4.*"
+    },
+
+    "authors": [
+        {
+            "name": "Arshavin",
+            "email": "arsavinwallentyn@gmail.com",
+            "homepage": "https://github.com/arshavinel"
+        }
+    ]
+}

@@ -45,7 +45,7 @@ final class App
     private $appLogoFaviconFile = null;
 
 
-    function __construct(string $appPath, string $webdevUserClass, array $appLogoClasses = null)
+    function __construct(string $appPath, array $urlPathRegex, string $webdevUserClass, array $appLogoClasses = null)
     {
         $this->appPath = $appPath;
         $this->appName = File::name($appPath);
@@ -55,13 +55,13 @@ final class App
             $this->isThisApp = true;
         }
 
-        $this->isStageApp = preg_match($_ENV['SERVICE__BOS_APPS__URL_PATH__REGEX__STAGE'], $this->appPath, $matches);
+        $this->isStageApp = preg_match($urlPathRegex['stage'], $this->appPath, $matches);
 
         if ($matches) {
             $urlPath = $matches[0];
         }
 
-        $this->isDevApp = preg_match($_ENV['SERVICE__BOS_APPS__URL_PATH__REGEX__DEV'], $this->appPath, $matches);
+        $this->isDevApp = preg_match($urlPathRegex['dev'], $this->appPath, $matches);
 
         if ($matches) {
             $urlPath = $matches[0];

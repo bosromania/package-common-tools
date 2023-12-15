@@ -15,7 +15,7 @@ final class StaticAppFinder
     /**
      * @return App[]
      */
-    static function findIn(string $location): array
+    static function findIn(string $location, array $urlPathRegex, string $webdevUserClass, array $appLogoClasses = null): array
     {
         $apps = array();
 
@@ -23,7 +23,7 @@ final class StaticAppFinder
 
         foreach ($folders as $folder) {
             if (self::isBosApp($folder)) {
-                $bosApp = new App($folder);
+                $bosApp = new App($folder, $urlPathRegex, $webdevUserClass, $appLogoClasses);
 
                 if ($bosApp->isWorkApp()) {
                     if ($bosApp->isDevApp()) {
@@ -36,7 +36,7 @@ final class StaticAppFinder
             }
             else {
                 foreach (glob($folder, GLOB_ONLYDIR) as $path) {
-                    $apps = array_merge_recursive($apps, self::findIn($path));
+                    $apps = array_merge_recursive($apps, self::findIn($path, $urlPathRegex, $webdevUserClass, $appLogoClasses));
                 }
             }
         }

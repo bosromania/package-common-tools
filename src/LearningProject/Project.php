@@ -5,6 +5,7 @@ namespace Bosromania\PackageCommonTools\LearningProject;
 use Arshwell\Monolith\Folder;
 use Arshwell\Monolith\File;
 use Arshwell\Monolith\URL;
+use DateTime;
 
 final class Project
 {
@@ -25,7 +26,7 @@ final class Project
     private $lastDeployAt = null;
 
     /** @var bool */
-    private $isStageProject = false;
+    private $isMainProject = false;
 
     /** @var bool */
     private $isDevProject = false;
@@ -40,9 +41,9 @@ final class Project
         $this->projectName = File::name($projectPath);
         $this->lastDeployAt = $this->fetchLastDeployAt($projectPath);
 
-        $this->isStageProject = preg_match($urlPathRegex['stage'], $this->projectPath, $matches);
+        $this->isMainProject = preg_match($urlPathRegex['main'], $this->projectPath, $matches);
 
-        if ($this->isStageProject()) {
+        if ($this->isMainProject()) {
             $this->faviconSrc = $this->saveFaviconSrc($projectPath);
         }
 
@@ -96,13 +97,13 @@ final class Project
     /**
      * If returns false, it's a Dev project.
      */
-    public function isStageProject(): bool
+    public function isMainProject(): bool
     {
-        return $this->isStageProject;
+        return $this->isMainProject;
     }
 
     /**
-     * If returns false, it's a Stage project.
+     * If returns false, it's a Main project.
      */
     public function isDevProject(): bool
     {
@@ -110,22 +111,24 @@ final class Project
     }
 
     /**
-     * If returns false, it's probably a Live project.
+     * If returns false, it's probably undefined,
+     * because learning projects don't have live environment.
      */
     public function isWorkProject(): bool
     {
-        return $this->isStageProject || $this->isDevProject;
+        return $this->isMainProject || $this->isDevProject;
     }
 
     /**
-     * If returns 'undefined', it's probably a Live project.
+     * If returns 'undefined', it's probably undefined,
+     * because learning projects don't have live environment.
      *
-     * @return string stage/dev/undefined
+     * @return string main/dev/undefined
      */
     public function getProjectType(): string
     {
-        if ($this->isStageProject) {
-            return 'stage';
+        if ($this->isMainProject) {
+            return 'main';
         }
         if ($this->isDevProject) {
             return 'dev';
@@ -157,6 +160,11 @@ final class Project
     public function getWebDevUser(): ?object
     {
         return $this->webDevUser;
+    }
+
+    public function getLastModificationTime(): \DateTime
+    {
+        return (new DateTime())->setTimestamp(Folder::mTime($this->projectPath));
     }
 
 

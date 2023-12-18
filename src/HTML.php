@@ -7,7 +7,8 @@ use Bosromania\PackageCommonTools\BosApp\App;
 
 final class HTML
 {
-    static function headerLogo (?Image $logoFile, ?string $logoText, App $bosApp, bool $backdropFilter = false): string {
+    static function headerLogo (?Image $logoFile, ?string $logoText, App $bosApp, bool $backdropFilter = false): string
+    {
         ob_start();
 
         if ($logoFile) {

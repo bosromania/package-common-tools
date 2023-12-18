@@ -29,7 +29,7 @@ final class StaticProjectFinder
                         $projects[$learningProject->getProjectGeneration()]['dev'][$learningProject->getFolderAuthor()] = $learningProject;
                     }
                     else {
-                        $projects[$learningProject->getProjectGeneration()]['stage'] = $learningProject;
+                        $projects[$learningProject->getProjectGeneration()]['main'] = $learningProject;
                     }
                 }
             }

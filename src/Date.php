@@ -4,7 +4,7 @@ namespace Bosromania\PackageCommonTools;
 
 final class Date
 {
-    static function readableDateDMY (int $time, bool $hour = true): string
+    static function readableDateDMY (int $time, bool $hour = true, bool $forceYear = false, string $dateSeparator = '/'): string
     {
         if (date('Ymd') == date('Ymd', $time)) {
             $format = "\\t\o\d\a\y" . ($hour ? " H:i" : '');
@@ -13,10 +13,14 @@ final class Date
             $format = "\y\\e\s\\t\\e\\r\d\a\y" . ($hour ? " H:i" : '');
         }
         else {
-            $format = "d/m/Y";
+            $format = 'd'.$dateSeparator.'m';
+
+            if ($forceYear || date('Y', $time) != date('Y')) {
+                $format .= $dateSeparator.'Y';
+            }
 
             // append hour, if not older that 3 days
-            if ((time() - $time) < 3*86400) {
+            if ($hour && (time() - $time) < 3*86400) {
                 $format .= " H:i";
             }
         }
@@ -24,7 +28,7 @@ final class Date
         return date($format, $time);
     }
 
-    static function readableDateDFY (int $time, bool $hour = true): string
+    static function readableDateDFY (int $time, bool $hour = true, bool $forceYear = false, string $dateSeparator = ' '): string
     {
         if (date('Ymd') == date('Ymd', $time)) {
             $format = "\\t\o\d\a\y" . ($hour ? " H:i" : '');
@@ -33,10 +37,14 @@ final class Date
             $format = "\y\\e\s\\t\\e\\r\d\a\y" . ($hour ? " H:i" : '');
         }
         else {
-            $format = "d F Y";
+            $format = 'd'.$dateSeparator.'F';
+
+            if ($forceYear || date('Y', $time) != date('Y')) {
+                $format .= $dateSeparator.'Y';
+            }
 
             // append hour, if not older that 3 days
-            if ((time() - $time) < 3*86400) {
+            if ($hour && (time() - $time) < 3*86400) {
                 $format .= " H:i";
             }
         }
